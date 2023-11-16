@@ -4,11 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,15 +19,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val scrollState = rememberScrollState()
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .background(color = Color.Blue)
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState)
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(10.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                for (i in 1..50) {
-                    Text("글씨 $i")
+                item {
+                    Text("Header")
+                }
+                items(50) { idx ->
+                    Text("글씨 $idx")
+                }
+                item {
+                    Text("Footer")
                 }
             }
         }
