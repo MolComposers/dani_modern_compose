@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val textValue = remember {
+            val (text, setValue) = remember {
                 mutableStateOf("")
             }
 
@@ -45,14 +45,14 @@ class MainActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextField(value = textValue.value,
-                    onValueChange = {
-                        textValue.value = it
-                    })
-                Button(onClick = {}) {
-                    Text(text = "클릭!!")
-                }
+                TextField(
+                    value = text,
+                    onValueChange = setValue)
+                            Button (onClick = {
 
+                            }) {
+                        Text(text = "클릭!!")
+                    }
             }
         }
     }
