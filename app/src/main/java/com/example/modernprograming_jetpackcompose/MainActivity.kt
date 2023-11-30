@@ -3,6 +3,7 @@ package com.example.modernprograming_jetpackcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,35 +32,35 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // 화면 전환에 핵심적인 기능
-            val navController = rememberNavController()
-
-            NavHost(navController = navController, startDestination = "first") {
-                composable("first") {
-                    FirstScreen(navController)
-                }
-                composable("second") {
-                    SecondScreen(navController)
-                }
-                composable("third/{value}") { backStackEntry ->
-                    ThirdScreen(
-                        backStackEntry.arguments?.getString("value") ?: "",
-                        navController
-                    )
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = viewModel.data.value, fontSize = 30.sp)
+                Button(
+                    onClick = {
+                        viewModel.data.value = "World"
+                    }
+                ) {
+                    Text(text = "변경")
                 }
             }
-
         }
     }
+}
+
+class MainViewModel : ViewModel() {
+    val data = mutableStateOf("Hello")
 }
 
 @Composable
